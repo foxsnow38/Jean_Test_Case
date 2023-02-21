@@ -3,7 +3,7 @@ import { View, Image } from "react-native";
 import AwesomeIcon from "react-native-vector-icons/FontAwesome";
 
 import { DataTable, Text, Portal, Modal, Button } from "react-native-paper";
-import { modalImage, pokemons } from "../../Store/Atom";
+import { modalImage, pokemons, selectedRow } from "../../Store/Atom";
 import { Crystal } from "../../Store/atomType";
 import Buttons from "../Buttons/Buttons";
 import { useAtom } from "jotai";
@@ -13,15 +13,19 @@ const firstLetterUpperCase = (str: string) => {
 };
 
 function Table() {
-  const [isModalVisible, setModalVisible] = React.useState(true);
+  const [isModalVisible, setModalVisible] = React.useState(false);
   const [pokes, setPokes] = useAtom(pokemons);
   const [modalImgSrc, setModalImgSrc] = useAtom(modalImage);
+  const [selectedRowName, setSelectedRowName] = useAtom(selectedRow);
   return (
     <View style={{ width: "100%" }}>
       <Portal>
         <Modal
           visible={isModalVisible}
-          onDismiss={() => setModalVisible(false)}
+          onDismiss={() => {
+            setModalVisible(false);
+            setSelectedRowName("");
+          }}
           contentContainerStyle={{
             width: "100%",
             height: 300,
@@ -51,6 +55,7 @@ function Table() {
                   color={"#FFA400"}
                   onPress={() => {
                     setModalVisible(false);
+                    setSelectedRowName("");
                   }}
                 />
               </View>
@@ -67,69 +72,80 @@ function Table() {
       </Portal>
 
       <DataTable style={{ width: "100%" }}>
-        <DataTable.Header
+        <View
           style={{
-            width: "100%",
-            paddingLeft: -10,
-            paddingRight: -10,
-            justifyContent: "space-between",
-            borderBottomWidth: 0,
-            shadowOffset: { width: 0, height: 5 },
-            shadowColor: "#0000",
-            shadowOpacity: 1,
-            elevation: 15,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 4,
+            },
+            shadowOpacity: 0.25,
+
+            backgroundColor: "#D9D9D9",
+            elevation: 4,
+            zIndex: 10,
           }}
         >
-          <DataTable.Title
+          <DataTable.Header
             style={{
-              borderRightColor: "#868686",
-              backgroundColor: "#D9D9D9",
-
-              borderRightWidth: 3,
-              justifyContent: "center",
-              flex: 4,
+              width: "100%",
+              paddingLeft: -10,
+              paddingRight: -10,
+              justifyContent: "space-between",
+              borderBottomWidth: 0,
             }}
           >
-            <Text style={{ color: "black", fontSize: 20 }}>Name</Text>
-          </DataTable.Title>
+            <DataTable.Title
+              style={{
+                borderRightColor: "#868686",
+                backgroundColor: "#D9D9D9",
 
-          <DataTable.Title
-            style={{
-              borderRightColor: "#868686",
-              backgroundColor: "#D9D9D9",
+                borderRightWidth: 2,
+                justifyContent: "center",
+                flex: 4,
+              }}
+            >
+              <Text style={{ color: "black", fontSize: 20 }}>Name</Text>
+            </DataTable.Title>
 
-              borderRightWidth: 3,
-              justifyContent: "center",
-              flex: 3,
-            }}
-          >
-            <Text style={{ color: "black", fontSize: 20 }}>HEIGHT</Text>
-          </DataTable.Title>
+            <DataTable.Title
+              style={{
+                borderRightColor: "#868686",
+                backgroundColor: "#D9D9D9",
 
-          <DataTable.Title
-            style={{
-              borderRightColor: "#868686",
-              backgroundColor: "#D9D9D9",
+                borderRightWidth: 2,
+                justifyContent: "center",
+                flex: 3,
+              }}
+            >
+              <Text style={{ color: "black", fontSize: 20 }}>HEIGHT</Text>
+            </DataTable.Title>
 
-              borderRightWidth: 3,
-              justifyContent: "center",
-              flex: 4,
-            }}
-          >
-            <Text style={{ color: "black", fontSize: 20 }}>WEIGHT</Text>
-          </DataTable.Title>
+            <DataTable.Title
+              style={{
+                borderRightColor: "#868686",
+                backgroundColor: "#D9D9D9",
 
-          <DataTable.Title
-            style={{
-              backgroundColor: "#D9D9D9",
+                borderRightWidth: 2,
+                justifyContent: "center",
+                flex: 4,
+              }}
+            >
+              <Text style={{ color: "black", fontSize: 20 }}>WEIGHT</Text>
+            </DataTable.Title>
 
-              justifyContent: "center",
-              flex: 5,
-            }}
-          >
-            <Text style={{ color: "black", fontSize: 20 }}>TYPES</Text>
-          </DataTable.Title>
-        </DataTable.Header>
+            <DataTable.Title
+              style={{
+                backgroundColor: "#D9D9D9",
+
+                justifyContent: "center",
+                flex: 5,
+              }}
+            >
+              <Text style={{ color: "black", fontSize: 20 }}>TYPES</Text>
+            </DataTable.Title>
+          </DataTable.Header>
+        </View>
         <View>
           {pokes.slice(0, 6).map((pokemon) => (
             <DataTable.Row
@@ -144,14 +160,16 @@ function Table() {
               onPress={() => {
                 setModalVisible(true);
                 setModalImgSrc(pokemon.sprites.front_default);
+                setSelectedRowName(pokemon.name);
               }}
             >
               <DataTable.Cell
                 style={{
                   borderRightColor: "#868686",
-                  borderRightWidth: 3,
+                  borderRightWidth: 2,
                   alignItems: "center",
-                  backgroundColor: "#D9D9D9",
+                  backgroundColor:
+                    selectedRowName == pokemon.name ? "#FFA400" : "#D9D9D9",
                   flex: 4,
                 }}
               >
@@ -162,23 +180,25 @@ function Table() {
               <DataTable.Cell
                 style={{
                   borderRightColor: "#868686",
-                  borderRightWidth: 3,
+                  borderRightWidth: 2,
                   alignItems: "center",
-                  backgroundColor: "#D9D9D9",
+                  backgroundColor:
+                    selectedRowName == pokemon.name ? "#FFA400" : "#D9D9D9",
                   flex: 3,
                   justifyContent: "center",
                 }}
               >
                 <Text style={{ color: "black", fontSize: 20 }}>
-                  {pokemon.height} cm
+                  {pokemon.height * 10} cm
                 </Text>
               </DataTable.Cell>
               <DataTable.Cell
                 style={{
                   borderRightColor: "#868686",
-                  borderRightWidth: 3,
+                  borderRightWidth: 2,
                   alignItems: "center",
-                  backgroundColor: "#D9D9D9",
+                  backgroundColor:
+                    selectedRowName == pokemon.name ? "#FFA400" : "#D9D9D9",
                   flex: 4,
                   justifyContent: "center",
                 }}
@@ -189,13 +209,14 @@ function Table() {
                     fontSize: 20,
                   }}
                 >
-                  {pokemon.weight} kg
+                  {pokemon.weight / 10} kg
                 </Text>
               </DataTable.Cell>
               <DataTable.Cell
                 style={{
                   alignItems: "center",
-                  backgroundColor: "#D9D9D9",
+                  backgroundColor:
+                    selectedRowName == pokemon.name ? "#FFA400" : "#D9D9D9",
                   flex: 5,
                   justifyContent: "center",
                 }}

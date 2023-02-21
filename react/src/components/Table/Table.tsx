@@ -69,7 +69,13 @@ function TableComp() {
             }}
             withColumnBorders={true}
           >
-            <thead style={{ boxShadow: "0px 4px 4px 0px rgba(0,0,0,0.25)" }}>
+            <thead
+              style={{
+                position: "relative",
+                boxShadow: "0px 4px 4px 0px rgba(0,0,0,0.25)",
+                zIndex: 10,
+              }}
+            >
               <tr>
                 <th style={{ ...tableStyle, fontWeight: "bold" }}>NAME</th>
                 <th style={{ ...tableStyle, fontWeight: "bold" }}>HEIGHT</th>
