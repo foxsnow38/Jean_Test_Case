@@ -25,18 +25,24 @@ function App() {
   const [searchBtnClicked, setSearchBtnClicked] = useAtom(searchClicked);
 
   React.useEffect(() => {
-    setPokes(pokemonsStore);
+    setPokes(
+      pokemonsStore.sort((a: PokemonApi, b: PokemonApi) => {
+        if (a.name < b.name) return 1;
+        if (a.name > b.name) return -1;
+        return 0;
+      })
+    );
   }, []);
   React.useEffect(() => {
     (async () => {
-      let pokemons = pokemonsStore;
+      let pokemons = pokemonsStore as PokemonApi[];
       if (!selected && !search) return setPokes(pokemons);
       await delay(100);
       let result = pokemons;
       if (selected) {
         result = pokemons.filter((item) => {
           const res = item.types.filter(
-            (slots: Type) => slots.type.name === selected
+            (slots: Type) => slots.type.name === selected.toLowerCase()
           );
           return res.length > 0;
         });

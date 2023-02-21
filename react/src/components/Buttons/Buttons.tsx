@@ -6,8 +6,8 @@ import { X } from "react-feather";
 const pokemonTypes = [
   "Grass",
   "Poison",
-  "Flying",
   "Fire",
+  "Flying",
   "Water",
   "Bug",
   "Normal",
@@ -40,9 +40,7 @@ function Buttons() {
         >
           {item}
           {selectedButton === item.toLowerCase() ? (
-            <ActionIcon>
-              <X size={20} color="#000" />
-            </ActionIcon>
+            <X size={20} color="#000" />
           ) : null}
         </Button>
       ))}

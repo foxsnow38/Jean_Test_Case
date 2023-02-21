@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, useColorScheme } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
 
 import Search from "./src/component/Search";
@@ -20,6 +20,7 @@ import GetPokemons from "./src/utils/GetPokemons/GetPokemons";
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 export default function App() {
   // const [pokemonsStore] = useAtom(pokemonsAtom);
+
   const [pokemonStore, setPokemonStore] = React.useState([]) as
     | PokemonApi[]
     | any[];
@@ -32,6 +33,12 @@ export default function App() {
   React.useEffect(() => {
     (async () => {
       await GetPokemons().then((res) => {
+        res = res.sort((a: PokemonApi, b: PokemonApi) => {
+          if (a.name < b.name) return 1;
+          if (a.name > b.name) return -1;
+          return 0;
+        });
+
         setPokes(res);
         setPokemonStore(res);
       });
@@ -46,7 +53,7 @@ export default function App() {
       if (selected) {
         result = pokemons.filter((item) => {
           const res = item.types.filter(
-            (slots: Type) => slots.type.name === selected
+            (slots: Type) => slots.type.name === selected.toLowerCase()
           );
           return res.length > 0;
         });
@@ -56,8 +63,10 @@ export default function App() {
           let res = false;
           res = item.name.includes(search.toLowerCase());
 
-          res = res || item.weight.toString().includes(search.toLowerCase());
-          res = res || item.height.toString().includes(search.toLowerCase());
+          res =
+            res || (item.weight / 10).toString().includes(search.toLowerCase());
+          res =
+            res || (item.height * 10).toString().includes(search.toLowerCase());
 
           return res;
         });

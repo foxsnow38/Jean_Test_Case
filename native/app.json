@@ -23,6 +23,8 @@
     },
     "android": {
       "userInterfaceStyle": "light",
+      
+      "forceLightAllowed":true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -34,7 +36,13 @@
     "plugins": [
       [
         "./plugins/withDisableForcedDarkModeAndroid.js",
-        {}
+        {
+          "android": {
+            "forceDark": {
+              "mode": "disabled"
+            }
+          }
+        }
       ]
     ]
 

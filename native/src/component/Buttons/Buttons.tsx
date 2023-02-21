@@ -8,8 +8,8 @@ import AwesomeIcon from "react-native-vector-icons/FontAwesome";
 const pokemonTypes = [
   "Grass",
   "Poison",
-  "Flying",
   "Fire",
+  "Flying",
   "Water",
   "Bug",
   "Normal",
@@ -31,9 +31,10 @@ export default function Buttons() {
               key={itemType}
               style={{
                 borderRightWidth: index === pokemonTypes.length - 1 ? 0 : 3,
-                borderRightColor: "#D9D9D9",
+                borderRightColor:
+                  index === pokemonTypes.length - 1 ? "" : "#868686",
 
-                width: 100,
+                width: 170,
                 height: 50,
 
                 backgroundColor: selected === itemType ? "#FFA400" : "#D9D9D9",

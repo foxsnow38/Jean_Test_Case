@@ -25,6 +25,7 @@ const modalImage = atom(
 const selectedBtn = atom("");
 const searchTerm = atom("");
 const searchClicked = atom(false);
+const selectedRow = atom("");
 
 // const selectedPokemon = atom(async (get) => {
 //   let pokemons = await get(pokemonsAtom);
@@ -50,4 +51,5 @@ export {
   modalImage,
   searchTerm,
   searchClicked,
+  selectedRow,
 };

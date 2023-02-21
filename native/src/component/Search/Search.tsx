@@ -9,7 +9,7 @@ function Search() {
   const [searchBtnClicked, setSearchBtnClicked] = useAtom(searchClicked);
 
   return (
-    <View>
+    <View style={{ alignItems: "center" }}>
       <View>
         <Text style={{ fontSize: 20, color: "white", alignSelf: "center" }}>
           Search Your Pokemon
@@ -21,6 +21,15 @@ function Search() {
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "center",
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            backgroundColor: "#D9D9D9",
+            elevation: 10,
           }}
         >
           <TextInput
@@ -32,7 +41,7 @@ function Search() {
             style={{
               backgroundColor: "#D9D9D9",
               width: 240,
-              height: 61,
+              height: 60,
               borderRadius: 0,
               margin: 0,
             }}
