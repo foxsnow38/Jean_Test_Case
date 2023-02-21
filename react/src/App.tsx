@@ -53,8 +53,10 @@ function App() {
           let res = false;
           res = item.name.includes(search.toLowerCase());
 
-          res = res || item.weight.toString().includes(search.toLowerCase());
-          res = res || item.height.toString().includes(search.toLowerCase());
+          res =
+            res || (item.weight / 10).toString().includes(search.toLowerCase());
+          res =
+            res || (item.height * 10).toString().includes(search.toLowerCase());
 
           return res;
         });
