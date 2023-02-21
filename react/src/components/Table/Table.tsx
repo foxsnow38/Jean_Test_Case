@@ -101,7 +101,7 @@ function TableComp() {
                     {item.name.charAt(0).toUpperCase() + item.name.substring(1)}
                   </td>
                   <td style={{ ...tableStyle }}>{item.height * 10} cm</td>
-                  <td style={{ ...tableStyle }}>{item.weight} kg</td>
+                  <td style={{ ...tableStyle }}>{item.weight / 10} kg</td>
                   <td style={{ ...tableStyle }}>
                     {item.types.map((attackType: PokemonTypes, index: number) =>
                       index === 0
