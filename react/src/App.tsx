@@ -27,8 +27,8 @@ function App() {
   React.useEffect(() => {
     setPokes(
       pokemonsStore.sort((a: PokemonApi, b: PokemonApi) => {
-        if (a.name < b.name) return 1;
-        if (a.name > b.name) return -1;
+        if (a.name > b.name) return 1;
+        if (a.name < b.name) return -1;
         return 0;
       })
     );
